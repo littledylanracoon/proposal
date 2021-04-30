@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.*;
 import java.awt.event.*; //事件
 import java.awt.event.KeyEvent;
@@ -96,17 +99,18 @@ class Main extends JPanel implements KeyListener {
     } else {
       //play a note if the key has an assigned note
       if(notes.containsKey(e.getKeyChar())){
+      //FileOutputStream(File file, boolean append);
 try {
-    PrintWriter writer = new PrintWriter(new FileOutputStream("d:\\output.txt"));
-    writer.println(e.getKeyChar());
-    writer.flush();
-    writer.close();
+    //FileOutputStream fos=new FileOutputStream(new File("abc.txt"),true);
+    PrintWriter Writer = new PrintWriter(new FileOutputStream("output.txt", true));
+    Writer.println(e.getKeyChar());
+    Writer.flush();
+    Writer.close();
     } 
-catch (FileNotFoundException e) {
-    e.printStackTrace();
+catch (FileNotFoundException f) {
+    f.printStackTrace();
 }
         makeSound(notes.get(e.getKeyChar()), 550);
-        writer.println(e.getKeyChar());
         System.out.println(notes.get(e.getKeyChar()));
         if(Main.attr == 1){  //chord
           switch(Main.state){
@@ -2519,11 +2523,32 @@ catch (FileNotFoundException e) {
   }
 
 	
-	
   public static void main(String[] args) {
     System.out.print("start");
     JFrame f = new JFrame("KeyTone");
     f.getContentPane().add(new Main());
+    JLabel label = new JLabel("Keyboard For Music Accompaniment",JLabel.LEFT);
+    label.setVerticalAlignment(JLabel.TOP);
+    label.setFont(new Font("Comic Sans MS", Font.BOLD, 35));
+    label.setBounds(10,10,1000,400);
+    JLabel fortone = new JLabel("TONE:",JLabel.LEFT);
+    fortone.setVerticalAlignment(JLabel.TOP);
+    fortone.setFont(new Font("Times New Roman", Font.BOLD, 25));
+    fortone.setBounds(10,70,500,400);
+    JLabel forrhythm = new JLabel("RHYTHM:",JLabel.LEFT);
+    forrhythm.setVerticalAlignment(JLabel.TOP);
+    forrhythm.setFont(new Font("Times New Roman", Font.BOLD, 25));
+    forrhythm.setBounds(10,120,500,400);
+    
+    //label.setPreferredSize(new Dimension(250, 100));
+    label.setForeground(new Color(120, 90, 40));
+    label.setBackground(new Color(100, 20, 70));
+    ImageIcon icon1 = new ImageIcon("background.png"); //插入圖片
+		JLabel background = new JLabel(icon1); //新增label放圖片
+		background.setLayout(new BorderLayout()); 
+    JLabel lb = new JLabel(new ImageIcon("pianodisplay.png"));
+    lb.setPreferredSize(new Dimension(1500, 1200));
+    //background.setBounds(0, 0, icon1.getIconWidth(), icon1.getIconHeight()); //設定label的位置、大小，label大小為圖片的大小
     JMenu diner = new JMenu("TONE"); 
 		JMenuItem toneC = new JMenuItem("Major C"); //新增三個menu中的類別的名
 		JMenuItem toneD = new JMenuItem("Major D");
@@ -2553,7 +2578,11 @@ catch (FileNotFoundException e) {
  	  //f.addMouseListener(new MyMouseEvent()); //將滑鼠偵測加到frame中
 		//f.setLayout(null); //設定frame的layout
 		f.setJMenuBar(bar);  
-  
+    f.add(label);
+    f.add(fortone);
+    f.add(forrhythm);
+    background.add(lb); //piano
+    f.add(background);
     f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     f.pack();
     f.setVisible(true);
